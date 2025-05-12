@@ -1,0 +1,68 @@
+﻿@model IEnumerable<Event_Ease.Models.Event>
+
+<!-- PRazor link  -->
+<!-- <Right><a asp-controller="Booking" asp-action="Index" class="btn btn-secondary">Go to Booking Page</a></Right>
+-->
+@{
+    ViewData["Title"] = "Index";
+}
+
+<center><h1>Event List</h1></center>
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+<p>
+    <a asp-action="Create" class="btn-create">Create New</a>
+
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EventName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EventDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Venue)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Venue.Location)
+            </td>
+            <td>
+                    <a asp-action="Details" asp-route-id="@item.EventId" class="btn btn-info">Details</a>
+                    <a asp-action="Edit" asp-route-id="@item.EventId" class="btn btn-warning">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.EventId" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

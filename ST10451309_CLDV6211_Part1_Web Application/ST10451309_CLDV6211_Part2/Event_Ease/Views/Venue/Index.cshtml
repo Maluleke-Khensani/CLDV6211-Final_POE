@@ -1,0 +1,83 @@
+﻿@model IEnumerable<Event_Ease.Models.Venue>
+
+<!-- PRazor link  -->
+<Right><<a asp-controller="Event" asp-action="Index" class="btn btn-secondary">Go to Events Page</a></Right>
+
+<br />
+@{
+    ViewData["Title"] = "Venue";
+}
+
+<center> <h1>Venue List</h1></center>
+
+@if (TempData["Success"] !=null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+	<div class="alert alert-danger">
+		@TempData["Error"]
+	</div>
+}
+<p>
+    <!-- the 'btn btn-success' class is a bootstrap class that gives the button a green color -->
+    
+    <a asp-action="Create" class="btn btn-success">Create New Venue</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.VenueName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Capacity)
+            </th>
+          <!-- Gonna add comment-->
+            <th>
+               Venue Image
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.VenueName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Capacity)
+            </td>
+            <td>
+					@if (!String.IsNullOrEmpty(item.ImageUrl))
+					{
+						<img src="@item.ImageUrl" alt="Venue Image" width="100" height="100" style="object-fit:cover; border-radius: 8px;" />
+					}
+					else
+					{
+						<span>No Image Available</span>
+					}
+
+               
+            </td>
+
+            <td>
+                <a asp-action="Details" asp-route-id="@item.VenueId" class="btn btn-info">Details</a>
+                <a asp-action="Edit" asp-route-id="@item.VenueId" class="btn btn-warning">Edit</a>
+                <a asp-action="Delete" asp-route-id="@item.VenueId" class="btn btn-danger">Delete</a>
+                   
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

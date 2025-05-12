@@ -1,0 +1,81 @@
+﻿@model IEnumerable<Event_Ease.Models.Booking>
+<!-- PRazor link  -->
+<a href="/Event/Index" class="btn btn-secondary">Go to Events</a>
+
+<br/>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<center ><h1>Booking List</h1> </center>
+<!--
+<form asp-action="Index" method="get">
+
+	<div class="form-group">
+		<label for="searchString">Search:</label>
+        <input type="text" name="searchString" id="searchString class= " form-control" placeholder=" Search by Booking ID or Event Name" />
+        <button type="submit" class="btn btn-primary">Search</button>
+	</div>
+</form>
+-->
+
+<!-- Search form to find bookings by Booking ID or Event Name -->
+<!-- Search form to find bookings by Booking ID or Event Name -->
+<form asp-action="Index" method="get">
+    <div style="display: flex; gap: 10px; align-items: center;">
+        <input type="text" name="searchString" placeholder="Search by Booking ID or Event Name" style="width: 300px;" />
+        <input type="submit" value="Search" class="btn btn-primary" />
+        <a asp-controller="Booking" asp-action="Index" class="btn btn-outline-secondary">Refresh</a>
+    </div>
+</form>
+<br />
+
+
+<!-- Success Message -->
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+<p>
+    <a asp-action="Create" class="btn-create">Create New</a>
+
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Booking ID</th> <!-- Shows the ID -->
+            <!-- <th>Customer Name <!-- Shows the person who booked --> 
+            <th>Booking Date</th> <!-- Date of the booking -->
+            <th>Event Name</th> <!-- Related event -->
+            <th>Venue Name</th> <!-- Related venue -->
+            <th></th> <!-- Action buttons -->
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.BookingId</td>
+                
+                <td>@item.BookingDate.ToShortDateString()</td>
+                <td>@item.Event?.EventName</td> <!-- ? is used to avoid errors if Event is null -->
+                <td>@item.Venue?.VenueName</td>
+                <td>
+                    <!-- Action buttons for each booking -->
+                    <a asp-action="Details" asp-route-id="@item.BookingId" class="btn btn-info">Details</a>
+                    <a asp-action="Edit" asp-route-id="@item.BookingId" class="btn btn-warning">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.BookingId" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
