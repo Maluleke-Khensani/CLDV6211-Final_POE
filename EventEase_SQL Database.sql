@@ -33,7 +33,7 @@ CREATE TABLE Booking (
 	
 );
 
-Create Unique Index UQ_Venue_Booking ON Booking (VenueId, BookingDate);
+-- Create Unique Index UQ_Venue_Booking ON Booking (VenueId, BookingDate);
 
 INSERT INTO Venue (VenueName, Location, Capacity, ImageUrl)
 VALUES ('The FNB Staduim', 'South Africa',100000, 'https://populous.com/uploads/2018/01/GettyImages-102810965-Do-not-use-after-31MAR2025.jpg');

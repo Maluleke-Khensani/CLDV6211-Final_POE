@@ -16,10 +16,36 @@ namespace Event_Ease.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchType, int? VenueId, DateTime? StartDate, DateTime? endDate)
+
         {
-            var events = await _context.Event.Include(e => e.Venue).ToListAsync();
-            return View(events);
+            var events =  _context.Event
+                .Include(e => e.Venue)
+                .Include(e => e.EventType)
+                .AsQueryable();
+
+           if(!string.IsNullOrEmpty(searchType))
+            {
+                // Filter events by EventType
+                events = events.Where(e => e.EventType.Name == searchType);
+            }
+           if(VenueId.HasValue)
+            {
+                // Filter events by VenueId
+                events = events.Where(e => e.VenueId == VenueId);
+            }
+
+            if (StartDate.HasValue && endDate.HasValue)
+            {
+                // Filter events by date range
+                events = events.Where(e => e.EventDate >= StartDate && e.EventDate <= endDate);
+            }
+
+            //This will return the list of events to the view
+            ViewData["EventTypeId"] = new SelectList(_context.EventType, "Name", "Name", searchType);
+            ViewData["VenueId"] = new SelectList(_context.Venue, "VenueId", "Location", VenueId);
+
+            return View(await events.ToListAsync());
         }
 
 
@@ -27,6 +53,8 @@ namespace Event_Ease.Controllers
         public IActionResult Create()
         {
             ViewData["VenueId"] = new SelectList(_context.Venue, "VenueId", "Location");
+            ViewData["EventTypeId"] = new SelectList(_context.EventType, "EventTypeId", "Name");
+           
             return View();
         }
 
@@ -46,6 +74,9 @@ namespace Event_Ease.Controllers
 
             // If the form is invalid, re-populate the dropdown list
             ViewData["VenueId"] = new SelectList(_context.Venue, "VenueId", "VenueName", events.VenueId);
+
+            //This ViewData is used to populate the dropdown list for EventTypeId in the form
+            //ViewData["EventTypeId"] = new SelectList(_context.EventType, "EventTypeId", "EventTypeName", events.EventTypeId);
 
             return View(events);   // Return the form back to the user with the data they entered
         }
@@ -120,6 +151,10 @@ namespace Event_Ease.Controllers
                 return NotFound();
             }
             ViewData["VenueId"] = new SelectList(_context.Venue, "VenueId", "VenueName", events.VenueId);
+
+            //This ViewData is used to populate the dropdown list for EventTypeId in the form
+            ViewData["EventTypeId"] = new SelectList(_context.EventType, "EventTypeId", "Name", events.EventTypeId);
+
             return View(events);
         }
 

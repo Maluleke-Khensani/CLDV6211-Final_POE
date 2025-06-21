@@ -3,6 +3,48 @@
 <!-- PRazor link  -->
 <!-- <Right><a asp-controller="Booking" asp-action="Index" class="btn btn-secondary">Go to Booking Page</a></Right>
 -->
+
+<form method="get"  class=" mb-4">
+    <div class="row">
+		<div class="col-md-3">
+        <label>Event Type</label>
+        <select name="searchType" class="form-control">
+            <option value="">-- All --</option>
+            @foreach (var item in (SelectList)ViewData["EventTypeId"])
+            {
+                <option value="@item.Value">@item.Text</option>
+            }
+        </select>
+    </div>
+
+        <div class="col-md-3">
+        <label>Venue</label>
+        <select name="VenueId" class="form-control">
+            <option value="">-- All --</option>
+            @foreach (var item in (SelectList)ViewData["VenueId"])
+            {
+                <option value="@item.Value">@item.Text</option>
+            }
+        </select>
+    </div>
+
+        <div class="col-md-3">
+        <label>Start Date</label>
+        <input type="date" name="StartDate" class="form-control" />
+    </div>
+
+    <div class= "col-md-3">
+        <label>End Date</label>
+        <input type="date" name="EndDate" class="form-control" />
+    </div>
+    </div>
+
+    <div class="mt-3">
+    <button type="submit" class="btn btn-primary">Filter</button>
+    <a href ="/Event/Index" class="btn btn-secondary ml-2">Clear</a>
+</div>
+</form>
+
 @{
     ViewData["Title"] = "Index";
 }
@@ -24,6 +66,7 @@
     <a asp-action="Create" class="btn-create">Create New</a>
 
 </p>
+
 <table class="table">
     <thead>
         <tr>

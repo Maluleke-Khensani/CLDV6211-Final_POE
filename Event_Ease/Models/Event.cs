@@ -25,6 +25,12 @@ namespace Event_Ease.Models
 
         //[ForeignKey("VenueId")]  // Links this to the Venue model
         public Venue? Venue { get; set; } = null;
-        public virtual ICollection<Booking> Booking { get; set; } = new List<Booking>(); 
+        public virtual ICollection<Booking> Booking { get; set; } = new List<Booking>();
+
+        // Foreign key property 
+        public int EventTypeId { get; set; }
+
+        // Navigation property 
+        public EventType? EventType { get; set; }
     }
 }

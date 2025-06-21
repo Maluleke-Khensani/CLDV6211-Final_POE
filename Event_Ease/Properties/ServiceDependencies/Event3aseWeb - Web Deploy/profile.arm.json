@@ -21,7 +21,7 @@
     },
     "resourceName": {
       "type": "string",
-      "defaultValue": "Event-Ease2",
+      "defaultValue": "Event3aseWeb",
       "metadata": {
         "description": "Name of the main resource to be created by this template."
       }

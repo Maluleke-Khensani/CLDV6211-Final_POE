@@ -208,9 +208,8 @@ public class VenueController : Controller
     // It will take the image file as a parameter and return the URL of the uploaded image  
     private async Task<string> UploadImageToBlobAsync(IFormFile imageFile)
     {
-        var connectionString = "REPLACE_WITH_ACTUAL_CONNECTION_STRING";
-
-        var containerName = "containercldv6211";
+        var connectionString = "connection";
+        var containerName = "cldve-container";
 
         var blobServiceClient = new BlobServiceClient(connectionString);
         var containerClient = blobServiceClient.GetBlobContainerClient(containerName);
